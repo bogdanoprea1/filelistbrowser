@@ -25,5 +25,10 @@ namespace FilelistBrowser
         public static string DetailsPosterImage2 { get { return "//*[@id=\"maincolumn\"]/div[2]/div[5]/div/div[1]/div[2]/img"; } }
         public static string DetailsIMDBImage2 { get { return "//*[@id=\"maincolumn\"]/div[2]/div[5]/div/div[1]/span[2]/text()"; } }
         public static string DetailsVideoImage2 { get { return "//*[@id=\"maincolumn\"]/div[2]/div[5]/div/div[2]/iframe"; } }
+
+        public static string DetailsHtml { get { return "//*[@id=\"maincolumn\"]/div[1]"; } }
+
+        public static string UserProfileDiv { get { return "//*[@id=\"wrapper\"]/div[1]/div/div[1]"; } }
+
     }
 }

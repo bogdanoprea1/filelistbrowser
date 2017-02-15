@@ -2,164 +2,713 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:local="clr-namespace:FilelistBrowser"                      
+        xmlns:local="clr-namespace:FilelistBrowser"
+        xmlns:converter="clr-namespace:FilelistBrowser.Helpers.Converter"
         Title="Filelist Browser" Background="black" Foreground="Black">
+    <Controls:MetroWindow.Resources>
+        <converter:DateTimeConverter x:Key="DateTimeConverter"/>
+        <converter:ImageConverter x:Key="ImageConverter"/>
+        <Style x:Key="btnLogOff" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#373737" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid Height="50">
+                                <Path x:Name="PathIcon" Width="15" Height="25" Stretch="Fill" Fill="Black"  Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                       Data="M17.199995,17.970026L18.099958,18.599998 18.099958,30.599998 13.2,30.599998 13.2,29.300003 17.199995,29.300003z M17.099958,17.900002L17.199995,17.900002 17.199995,17.970026z M9.4999914,15.099998C8.9999914,15.099998 8.599967,15.5 8.599967,16 8.599967,16.5 8.9999914,16.900002 9.4999914,16.900002 9.9999905,16.900002 10.400015,16.5 10.400015,16 10.400015,15.5 9.9999905,15.099998 9.4999914,15.099998z M22.099955,12.800003L22.099955,14.599998 25.9,14.599998 25.9,17.900002 22.099955,17.900002 22.099955,19.699997 17.099958,16.300003z M12.999988,1.9000015L13.099963,1.9000015 17.999983,1.9000015 17.999983,13.900002 16.999985,14.599998 16.999985,3.0999985 12.999988,3.0999985z M12.099964,0L12.099964,32 0,30 0,2z" />
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                                <TextBlock x:Name="txtPathLogOff" Foreground="Black" Text="Log Off" HorizontalAlignment="Center" VerticalAlignment="Bottom"></TextBlock>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF007ACC" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter TargetName="PathIcon" Property="Fill" Value="#FF007ACC" />
+                                <Setter TargetName="txtPathLogOff" Property="Foreground" Value="#FF007ACC"/>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="OrangeRed" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="btnUtorrentStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#373737" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Width="60" Height="60" Visibility="Collapsed" />
+                                <Path x:Name="pathUtorrent" Data="M21.547004,7.3790097C21.319007,7.3720059 21.146003,7.4990048 21.146003,7.4990048 21.146003,7.4990048 19.450004,7.7909965 18.518005,7.9800072 17.571004,8.1720085 17.949002,8.9379997 17.949002,8.9379997 17.949002,8.9379997 20.564002,15.066994 21.36,17.174003 21.496001,17.528998 20.707,20.510991 17.442998,20.510991 14.176999,20.510991 12.983998,17.65499 12.983998,17.65499 12.983998,17.65499 10.410001,11.053995 10.096002,10.165004 9.783002,9.2759962 8.8400012,9.783 8.8400012,9.783 8.8400012,9.783 5.8890006,10.417994 5.1370017,10.607997 4.383999,10.799006 4.8860022,11.624002 4.8860022,11.624002L11.454999,28.906007C12.827001,29.380006 14.294004,29.651002 15.826002,29.651002 16.376004,29.651002 16.914998,29.608003 17.448003,29.543977L14.743002,23.429997C14.743002,23.429997 16.248998,23.811986 17.190999,23.811986 22.118003,23.811986 23.141006,19.588004 23.141006,19.588004 23.141006,19.588004 24.354003,21.233998 26.513,21.233998 27.362006,21.233998 27.961005,21.126988 28.378005,21.008 28.788001,19.959998 29.073005,18.84899 29.214004,17.691001 28.968002,17.786002 28.622001,17.862998 28.143005,17.862998 26.627006,17.862998 25.855003,15.877998 25.855003,15.877998 25.855003,15.877998 22.717002,9.1489973 22.277,8.0700035 22.058005,7.529995 21.775001,7.3870053 21.547004,7.3790097z M15.826002,0C24.566001,0 31.652,7.1630063 31.652,15.999992 31.652,24.837008 24.566001,32.000001 15.826002,32.000001 7.0859991,32.000001 -1.5899059E-07,24.837008 0,15.999992 -1.5899059E-07,7.1630063 7.0859991,0 15.826002,0z" 
+                                                                Grid.Row="0"  Stretch="Uniform" Fill="#FF049E29" Width="30" Height="30" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <RotateTransform Angle="0" />
+                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <TextBlock Text="Download" Foreground="#FF049E29" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" ></TextBlock>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF00B0CC" />
+                                <Setter Property="Foreground" Value="#FF00B0CC" />
+                                <Setter TargetName="pathUtorrent" Property="Fill" Value="#FF00B0CC" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FF00CC00" />
+                                <Setter Property="Foreground" Value="#FF00CC00" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="btnDetails" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#373737" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Width="60" Height="60" Visibility="Collapsed" />
+                                <Path x:Name="pathFilelist" Data="M25.400009,21.400005L29.800003,21.400005C28.100006,24.100017 25.400009,26.200025 22.300003,27.200025 23,26.500013 23.600006,25.600019 24.199997,24.600017 24.699997,23.600017 25.100006,22.500011 25.400009,21.400005z M19,21.400005L24,21.400005C23.699997,22.299998 23.300003,23.200023 22.900009,23.900005 21.800003,26.000013 20.400009,27.3 18.900009,27.700025z M12.300003,21.400005L17.699997,21.400005 17.600006,27.8C16,27.600019 14.5,26.200025 13.300003,23.900005 13,23.100017 12.600006,22.299998 12.300003,21.400005z M26.5,14.700019L32,14.700019C31.900009,16.600013,31.400009,18.400003,30.600006,20.100015L25.900009,20.100015C26.199997,18.400003,26.5,16.600013,26.5,14.700019z M19.100006,14.700019L25.199997,14.700019C25.100006,16.600013,24.900009,18.400003,24.400009,20.100015L19,20.100015z M16.199997,14.700019L17.699997,14.700019 17.699997,20.100015 12,20.100015C11.900009,19.799997,11.900009,19.500009,11.800003,19.200021L15.5,15.500007z M25.900009,7.7999913L30.600006,7.7999913C31.400009,9.500004,31.900009,11.399999,32,13.4L26.5,13.4C26.5,11.399999,26.300003,9.500004,25.900009,7.7999913z M19.100006,7.7999913L24.5,7.7999913C24.900009,9.500004,25.199997,11.399999,25.199997,13.4L19.100006,13.4z M12.100006,7.7999913L17.800003,7.7999913 17.800003,13.4 11.300003,13.4C11.300003,11.299993,11.600006,9.3999979,12.100006,7.7999913z M22.5,0.6000061C25.600006,1.6000066,28.199997,3.6000077,29.900009,6.3999969L25.600006,6.3999969C25.300003,5.2999904 24.900009,4.2000138 24.400009,3.2999892 23.800003,2.2999887 23.199997,1.3999944 22.5,0.6000061z M14.199997,0.6000061C13.5,1.2999882 12.900009,2.2000131 12.300003,3.2000136 10.900009,5.8999965 10,9.8999988 9.9000092,14.000007L9.9000092,14.700019 14.5,14.700019 7.1999969,22.000011 0,14.600013 4.5,14.600013 4.5,13.900001C4.5,7.7000157,8.6000061,2.2999887,14.199997,0.6000061z M19.199997,0.1000061C20.600006,0.50000006 22,1.7999884 23.100006,3.8999953 23.5,4.7000143 23.800003,5.5000026 24.100006,6.3999969L19.100006,6.3999969z M17.900009,0L17.800003,6.3999969 12.400009,6.3999969C12.699997,5.5000026 13.100006,4.6000082 13.5,3.7999892 14.699997,1.5000005 16.300003,0.20001213 17.900009,0z" 
+                                                                Grid.Row="0"  Stretch="Uniform" Fill="#FFD46B02" Width="30" Height="30" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <RotateTransform Angle="0" />
+                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <TextBlock Text="FileList" Foreground="#FFD46B02" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="1" ></TextBlock>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFF0540C" />
+                                <Setter Property="Foreground" Value="#FFF0540C" />
+                                <Setter TargetName="pathFilelist" Property="Fill" Value="#FF00B0CC" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#FF00CC00" />
+                                <Setter Property="Foreground" Value="#FF00CC00" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DropShadowEffect x:Key="z-depth1" BlurRadius="5" ShadowDepth="1" Direction="270" Color="#CCCCCC"/>
+        <DropShadowEffect x:Key="z-depth2" BlurRadius="8" ShadowDepth="2.5" Direction="270" Color="#BBBBBB"/>
+    </Controls:MetroWindow.Resources>
+
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="Assets\movies.jpg" Opacity="0.1"></ImageBrush>
+            <ImageBrush ImageSource="Assets\movies.jpg" Opacity="0.2"></ImageBrush>
         </Grid.Background>
         <Grid x:Name="grdTop" Visibility="Visible">
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-
-            <Grid Grid.Row="1" x:Name="grdMain">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="1" x:Name="gridLoggedIn" Visibility="Collapsed">
+            <Grid Grid.Row="0" Grid.ColumnSpan="2" x:Name="gridLoggedIn" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock  Foreground="White"  Margin="20,0,0,0" Grid.Column="0" FontSize="40" x:Name="txtWhoIsLoggedIn">
+                </TextBlock>
+                <Border Effect="{StaticResource z-depth1}" Grid.Column="1" Height="60" Margin="0,10,10,0">
+                <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock  Foreground="White"  Margin="20,0,0,0" Grid.Column="0" FontSize="40" x:Name="txtWhoIsLoggedIn">
-                    </TextBlock>
-                    <Image Source="Assets\logout.png" Width="65" MouseDown="btnLogOff_Click" HorizontalAlignment="Right" Margin="5" Grid.Column="1" ></Image>
-                </Grid>
-                <Grid Grid.Row="2" Margin="0,10,0,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="130"></ColumnDefinition>
-                        <ColumnDefinition Width="130"></ColumnDefinition>
-                        <ColumnDefinition Width="120"></ColumnDefinition>
-                        <ColumnDefinition Width="60"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Margin="5" FontSize="18" FontWeight="Bold" Foreground="White" Text="Cauta"></TextBlock>
-                    <TextBox x:Name="txtCauta" Margin="10,0,0,0" Grid.Column="0" Grid.Row="1"></TextBox>
-
-                    <TextBlock Foreground="White"  Grid.Column="1" Grid.Row="0" Margin="5" FontSize="18" FontWeight="Bold" Text="Categorie"></TextBlock>
-                    <ComboBox x:Name="cmbCategory" Margin="10,0,0,0" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding CategoryDictionar}" SelectedIndex="0"  DisplayMemberPath="Value" SelectedValuePath="Key"></ComboBox>
-
-                    <TextBlock Foreground="White"  Grid.Column="2" Grid.Row="0" Margin="5" FontSize="18" FontWeight="Bold" Text="Unde"></TextBlock>
-                    <ComboBox x:Name="cmbWhere" Margin="10,0,0,0" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding SearchInDictionar}" SelectedIndex="0"  DisplayMemberPath="Value" SelectedValuePath="Key"></ComboBox>
-
-                    <TextBlock Foreground="White"  Grid.Column="3" Grid.Row="0" Margin="5" FontSize="18" FontWeight="Bold" Text="Cate pagini"></TextBlock>
-                    <ComboBox x:Name="cmbPages" ItemsSource="{Binding Pages}"  DisplayMemberPath="Value" SelectedValuePath="Key" SelectedIndex="0" Margin="10,0,0,0" Grid.Column="3" Grid.Row="1"></ComboBox>
-                    <Image Source="Assets\search.png" Width="30"  Grid.Column="4" MouseDown="btnSearch_Click" HorizontalAlignment="Center" Grid.Row="1"></Image>
-
-                </Grid>
-                <StackPanel Grid.Row="3">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Button Content="Order by Downloads" x:Name="dwButton" Click="dwButton_Click"></Button>
+                    <Grid Grid.ColumnSpan="3" Grid.RowSpan="3" Visibility="Visible">
+                        <Rectangle Fill="White" Name="Rect" Visibility="Visible" />
                     </Grid>
-                    
-                </StackPanel>
-                <ScrollViewer Grid.Row="4">
-                    <ItemsControl ItemsSource="{Binding TorrentList}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Background="White">
-                                    <Grid >
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                        </Grid.RowDefinitions>
+                    <Path Grid.Column="0" Grid.RowSpan="3" Data="M10,21.200002L22,21.200002C27.099976,21.200002,31.199951,25.899997,32,31.999999L0,31.999999C0.79998779,25.799991,5,21.200002,10,21.200002z M16,0C19.899963,-1.0393705E-08 23,3.9999981 23,8.9000054 23,13.799996 19.899963,17.799994 16,17.799994 12.099976,17.799994 9,13.799996 9,8.9000054 9,3.9999981 12.099976,-1.0393705E-08 16,0z"
+                          Stretch="Uniform" Fill="Black" Width="40" Height="60" Margin="10,10,10,10" RenderTransformOrigin="0.5,0.5">
+                        <Path.RenderTransform>
+                            <TransformGroup>
+                                <TransformGroup.Children>
+                                    <RotateTransform Angle="0" />
+                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                </TransformGroup.Children>
+                            </TransformGroup>
+                        </Path.RenderTransform>
+                    </Path>
+                    <Grid Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
 
-                                        <Grid Grid.Row="0" MouseDown="gridT_MouseDown">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                            </Grid.RowDefinitions>
+                        <Path Grid.Column="0" Data="M14.345032,3.3099817L14.345032,17.654914 28.689026,17.654914C28.689026,25.579871 22.268982,31.999839 14.345032,31.999839 6.419983,32.099845 4.6892062E-08,25.679877 0,17.754913 4.6892062E-08,9.830947 6.419983,3.3099817 14.345032,3.3099817z M17.655029,0C25.580017,0,32,6.4199678,32,14.344925L17.655029,14.344925z"
+                              Stretch="Uniform" Fill="Black" Width="14" Height="14" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="Black" Text="{Binding UserP.Ratio}">
+                        </TextBlock>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Path Grid.Column="0" Data="M7.1026927,8.3989833L8.9016973,9.8989823C4.6026598,10.699 2.0026196,12.199 2.0026196,13.299005 2.0026196,14.898979 7.5016848,17.299004 15.901789,17.299004 24.300916,17.299004 29.800988,14.898979 29.800988,13.299005 29.800988,12.199 27.200948,10.699 22.900874,9.8989823L24.800923,8.3989833C29.100967,9.6990007 32.001001,11.799006 32.001001,14.299005 32.001001,18.198996 24.800923,21.398001 16.001796,21.398001 7.2026693,21.398001 0.0025934007,18.198996 0.0025932575,14.299005 -0.097414011,11.799006 2.7026104,9.6990007 7.1026927,8.3989833z M13.501763,0L18.301814,0 18.301814,7.4989894 23.200896,7.4989894 15.901789,13.598993 8.6017047,7.4989894 13.501763,7.4989894z"
+                              Stretch="Uniform" Fill="Black" Width="14" Height="14" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="Black"  Text="{Binding UserP.Uploaded}">
+                        </TextBlock>
+                    </Grid>
+
+                    <Grid Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Path Grid.Column="0" Data="M11.909998,9.0570053L11.909998,11.122008C5.8879998,11.742003 2.0989988,13.632993 2.098999,14.964994 2.0989988,16.575009 7.6440003,19.014004 16.000001,19.014004 24.356996,19.014004 29.901994,16.575009 29.901994,14.964994 29.901994,13.632993 26.114999,11.74301 20.093995,11.122008L20.093995,9.0590194C26.942994,9.8600143 31.999999,12.611997 31.999999,15.897001 31.999999,19.809018 24.836,22.979 16.000001,22.979 7.1639969,22.979 0,19.809018 0,15.897001 0,12.611997 5.0600007,9.8580001 11.909998,9.0570053z M16.002,0L23.276994,6.0650014 18.415994,6.0650014 18.415994,13.583005 13.588,13.583005 13.588,6.0650014 8.7270005,6.0650014z"
+                              Stretch="Uniform" Fill="Black" Width="14" Height="14" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Foreground="Black"  Text="{Binding UserP.Downloaded}">
+                        </TextBlock>
+                    </Grid>
+
+                    <Button Grid.RowSpan="3" Grid.Column="2" Style="{StaticResource btnLogOff}" Click="btn_LogOff" BorderThickness="0" Background="Transparent" Width="65" HorizontalAlignment="Right" Margin="5" >
+                    </Button>
+                </Grid>
+                </Border>
+
+
+                <Image Source="Assets\logout.png" Visibility="Collapsed" Width="65" HorizontalAlignment="Right" Margin="5" Grid.Column="1" ></Image>
+            </Grid>
+            <TabControl Grid.Row="1" Style="{StaticResource tabControlStyle}" Margin="12,0,12,12" Name="tabControl1">
+                <TabItem Style="{StaticResource tabItemStyleNoClose}">
+                    <TabItem.Header>
+                        <Grid Height="10">
+                            <Label Content="Search" Foreground="White" Margin="-8"></Label>
+                        </Grid>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid x:Name="grdMain">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="15*"/>
+                                    <ColumnDefinition Width="709*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="10,10,0,10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="130"></ColumnDefinition>
+                                        <ColumnDefinition Width="130"></ColumnDefinition>
+                                        <ColumnDefinition Width="120"></ColumnDefinition>
+                                        <ColumnDefinition Width="40"></ColumnDefinition>
+                                        <ColumnDefinition Width="40"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Column="0"  Grid.Row="0" Margin="10,5,0,0" VerticalAlignment="Center" FontSize="18" FontWeight="Bold" Foreground="White" Text="Cauta"></TextBlock>
+                                    <TextBox x:Name="txtCauta" KeyUp="txtCauta_KeyUp" Margin="10,0,0,0" BorderThickness="0" Grid.Column="0" Grid.Row="1">
+                                    </TextBox>
+
+                                    <TextBlock Foreground="White"  Margin="10,5,0,0" VerticalAlignment="Center"  Grid.Column="1" Grid.Row="0" FontSize="18" FontWeight="Bold" Text="Tip"></TextBlock>
+                                    <ComboBox x:Name="cmbCategory" Margin="10,0,0,0" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding CategoryDictionar}" SelectedIndex="0"  DisplayMemberPath="Value" SelectedValuePath="Key"></ComboBox>
+
+                                    <TextBlock Foreground="White"  Grid.Column="2" Grid.Row="0"  Margin="10,5,0,0" VerticalAlignment="Center"  FontSize="18" FontWeight="Bold" Text="In"></TextBlock>
+                                    <ComboBox x:Name="cmbWhere" Margin="10,0,0,0" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding SearchInDictionar}" SelectedIndex="0"  DisplayMemberPath="Value" SelectedValuePath="Key"></ComboBox>
+
+                                    <TextBlock Foreground="White"  Grid.Column="3" Grid.Row="0"  Margin="10,5,0,0" VerticalAlignment="Center"  FontSize="18" FontWeight="Bold" Text="Pagini"></TextBlock>
+                                    <TextBox PreviewTextInput="PreviewTextInput" x:Name="txtPages" DataObject.Pasting="TextBoxPasting" Margin="10,0,0,0"  Grid.Column="3" Grid.Row="1"></TextBox>
+
+                                    <Button Width="30" Margin="5,0,0,0" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4" Click="btnSearch_Click">
+                                        <Button.Content>
+                                            <Path Data="M12.003748,4.5049986C10.494726,4.5309996 8.9806971,4.987008 7.7016882,5.9000024 4.5866403,8.1250076 4.0476317,12.220008 6.5006675,15.049994 8.9517054,17.875006 13.465759,18.364996 16.581798,16.140005 19.698844,13.915 20.235855,9.8199996 17.783826,6.9899983 16.404809,5.3980035 14.373776,4.5479979 12.305754,4.5049986 12.205747,4.5029997 12.104748,4.5029997 12.003748,4.5049986z M12.127743,2.0721107E-06C15.724792,-0.0019966637 19.286836,1.4420032 21.684881,4.2050108 25.103918,8.1500015 25.075918,13.549994 22.002878,17.435003L31.444,28.325001 26.299932,32.000002 16.892806,21.15C11.969737,23.054996 6.0676631,21.830006 2.5996136,17.834997 -1.5464387,13.049994 -0.63543081,6.1250085 4.6346449,2.3600098 6.8586745,0.77200525 9.5027079,0.0010016877 12.127743,2.0721107E-06z"
+                                  Stretch="Uniform" Fill="Black" Width="20" Height="17" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TransformGroup.Children>
+                                                            <RotateTransform Angle="0" />
+                                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                        </TransformGroup.Children>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+                                        </Button.Content>
+                                    </Button>
+
+                                    <Button Grid.Column="5" Width="30" HorizontalAlignment="Center" Grid.Row="1" x:Name="btn_GoHome" Click="btn_GoHome_Click">
+                                        <Button.Content>
+                                            <Path Data="M16.200012,8.3999948L27.899963,17.500002 27.899963,31.200001 18.399963,31.200001 18.399963,21.599993 13.399963,21.599993 13.399963,31.200001 4,31.200001 4,17.599993z M16.200012,0L32,12.599993 32,16.800005 16.200012,4.0999912 0,17.199999 0,13.000002z" 
+                                  Stretch="Uniform" Fill="Black" Width="20" Height="17" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                <Path.RenderTransform>
+                                                    <TransformGroup>
+                                                        <TransformGroup.Children>
+                                                            <RotateTransform Angle="0" />
+                                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                        </TransformGroup.Children>
+                                                    </TransformGroup>
+                                                </Path.RenderTransform>
+                                            </Path>
+                                        </Button.Content>
+                                    </Button>
+
+                                </Grid>
+                                <StackPanel Grid.Row="3" Grid.Column="0" Margin="0,0,10,0" Grid.ColumnSpan="2" >
+                                    <Grid Margin="16,0,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            <ColumnDefinition  Width="Auto"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+
+                                        <Grid Grid.Column="0">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" ></ColumnDefinition>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <Image Margin="3" Source="{Binding Image}" Width="100" Height="100" Grid.RowSpan="4" Grid.Column="0"></Image>
-                                            <TextBlock Grid.Row="0" FontSize="20" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding TorrentName}" FontWeight="Bold"></TextBlock>
-                                            <TextBlock Grid.Row="1" FontSize="15" Grid.Column="1" Text="{Binding Gender}" FontWeight="Bold"></TextBlock>
-                                            <StackPanel Grid.Row="2" Grid.Column="1">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <TextBlock FontSize="15" Grid.Column="0" Margin="5" Foreground="#FFCF0000">
-                                            <Run Text="Downloads: "></Run>
-                                            <Run Text="{Binding DownloadNumber}" FontWeight="Bold"></Run>
-                                                    </TextBlock>
-
-                                                    <TextBlock FontSize="15" Grid.Column="1" Margin="5" Foreground="Blue">
-                                            <Run Text="Tip: "></Run>
-                                            <Run Text="{Binding Type}" FontWeight="Bold"></Run>
-                                                    </TextBlock>
-
-                                                    <TextBlock   FontSize="15" Grid.Column="2" Margin="5" Foreground="#FF366300">
-                                                    <Run Text="Size: "></Run>
-                                            <Run Text="{Binding Size}" FontWeight="Bold"></Run>
-                                            <Run Text="GB" FontWeight="Bold"></Run>
-                                                    </TextBlock>
-
-                                                    <TextBlock  FontSize="15" Grid.Column="3" Margin="5" Foreground="#FF006266">
-                                            <Run Text="Seeders: "></Run>
-                                            <Run Text="{Binding Seeders}" FontWeight="Bold"></Run>
-                                                    </TextBlock>
-                                                    <Button Grid.Column="4" Content="Seen" Click="seen_Click" DataContext="{Binding TorrentId}"></Button>
-                                                </Grid>
-
-                                            </StackPanel>
-
-                                            <Image Width="60" Grid.RowSpan="4" Grid.Column="2" DataContext="{Binding Uri}" Height="60" Margin="10" MouseDown="download_MouseDown" Source="Assets\arrow_down.png"></Image>
-
-                                            
-
+                                            <TextBlock Text="Downloads" Margin="5" Foreground="White" Grid.Column="0"></TextBlock>
+                                            <Button Grid.Column="1" Margin="2" Click="btnDownloadUp_Click">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Path Data="M15.995972,0L32,21.478999 0,21.478999z" Stretch="Uniform" Fill="Black" Width="12" Height="9" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Grid.Column="2" Margin="2" Click="btnDownloadDown_Click">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Path Data="M0,0L32,0 16,19.745z" Stretch="Uniform" Fill="Black" Width="12" Height="9" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
                                         </Grid>
-                                        <Grid Visibility="Collapsed" Grid.Row="1">
+
+                                        <Grid Grid.Column="1" Margin="5,0,0,0">
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Seeders" Margin="5" Foreground="White" Grid.Column="0"></TextBlock>
+                                            <Button Grid.Column="1" Margin="2" Click="btnSeedersUp_Click">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Path Data="M15.995972,0L32,21.478999 0,21.478999z" Stretch="Uniform" Fill="Black" Width="12" Height="9" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Grid.Column="2" Margin="2"  Click="btnSeedersDown_Click">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Path Data="M0,0L32,0 16,19.745z" Stretch="Uniform" Fill="Black" Width="12" Height="9" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid>
+
+                                        <Grid Grid.Column="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="Date Added" Margin="5" Foreground="White" Grid.Column="0"></TextBlock>
+                                            <Button Grid.Column="1" Margin="2" Click="btnDateUp_Click">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Path Data="M15.995972,0L32,21.478999 0,21.478999z" Stretch="Uniform" Fill="Black" Width="12" Height="9" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Grid.Column="2" Margin="2" Click="btnDateDown_Click">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Path Data="M0,0L32,0 16,19.745z" Stretch="Uniform" Fill="Black" Width="12" Height="9" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid>
+
+                                        <Grid Grid.Column="3"  Margin="5,0,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                                                 <ColumnDefinition Width="*"></ColumnDefinition>
                                             </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                                <RowDefinition Height="Auto"></RowDefinition>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Grid.ColumnSpan="3" FontSize="25" Grid.Row="0">
-                                        <Run Text="IMDB: "></Run>
-                                        <Run Text="{Binding TorrentDetails.ImdbMark}"></Run>
-                                            </TextBlock>
-                                            <Image Source="{Binding TorrentDetails.PoserImage}" Margin="10" Height="300" Grid.Column="0" Grid.Row="1"></Image>
-                                            <Image Source="Assets\youtube.png" DataContext="{Binding TorrentDetails.Video}" Height="300" MouseDown="youtube_MouseDown" Grid.Column="1" Grid.Row="1"></Image>
-                                            <Image Height="130" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" DataContext="{Binding Details}" MouseDown="details_MouseDown" Source="Assets\logo.png"></Image>
-                                        </Grid>
+
+                                            <TextBlock Grid.Column="0" Margin="10,0,5,0" Text="Downloads between" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                            <TextBox PreviewTextInput="PreviewTextInput" x:Name="txtMin" DataObject.Pasting="TextBoxPasting" Height="6" Grid.Column="1" BorderThickness="0" Width="70" Margin="0"/>
+                                            <TextBlock Grid.Column="2" Margin="5,0,5,0" Text="and" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                            <TextBox PreviewTextInput="PreviewTextInput" x:Name="txtMax" DataObject.Pasting="TextBoxPasting" Height="6" Grid.Column="3" BorderThickness="0" Width="70"></TextBox>
+                                            <Button Grid.Column="4" Margin="5,0,0,0" Height="12" Click="btnBetweenDwonloads_Click">
+                                                <Button.Content>
+                                                    <StackPanel>
+                                                        <Path Data="M6.0009785,20L13.000978,20C13.553978,20 14.000978,20.447999 14.000978,21 14.000978,21.552 13.553978,22 13.000978,22L6.0009785,22C5.447978,22 5.0009785,21.552 5.0009785,21 5.0009785,20.447999 5.447978,20 6.0009785,20z M21.955017,17.992013C21.419981,17.992013 20.902035,18.096017 20.414973,18.302011 18.948049,18.920022 18.001024,20.343025 18.001024,21.928015 18.001024,24.098027 19.773979,25.864017 21.955017,25.864017 24.136055,25.864017 25.90901,24.098027 25.90901,21.928015 25.90901,19.758034 24.136055,17.992013 21.955017,17.992013z M6.0009785,16L15.000978,16C15.553978,16 16.000978,16.448 16.000978,17 16.000978,17.552 15.553978,18 15.000978,18L6.0009785,18C5.447978,18 5.0009785,17.552 5.0009785,17 5.0009785,16.448 5.447978,16 6.0009785,16z M6.0009785,11.999999L18.000979,11.999999C18.553978,12 19.000978,12.448 19.000979,12.999999 19.000978,13.552 18.553978,14 18.000979,13.999999L6.0009785,13.999999C5.447978,14 5.0009785,13.552 5.0009785,12.999999 5.0009785,12.448 5.447978,12 6.0009785,11.999999z M17.000979,3.414978L17.000979,7.0309896 20.61699,7.0309896z M2.000001,2L2.000001,30 22.006001,30 22.002053,27.863086 21.955017,27.864016C18.672047,27.864016 16.001017,25.201023 16.001017,21.928015 16.001017,19.536019 17.429,17.390024 19.637993,16.459025 20.372004,16.149028 21.151059,15.992015 21.955017,15.992015L22,15.993153 22,9.0309887 15.000978,9.0309887 15.000978,2z M2.000001,0L16.414001,0 24,7.5859995 24,16.352792C26.278749,17.186275 27.909017,19.371002 27.909017,21.928015 27.909017,23.155393 27.533403,24.296988 26.89076,25.244536L26.822731,25.342298 31.710753,30.289015C32.099728,30.682014 32.095728,31.315013 31.702754,31.703012 31.507767,31.896012 31.253783,31.992013 30.9998,31.992013 30.741817,31.992013 30.483833,31.893012 30.288846,31.695012L25.411184,26.758781 25.399392,26.767362C24.973736,27.069374,24.506715,27.317032,24.008608,27.500089L24,27.503065 24,30C24,31.103,23.106,31.999999,22.006001,31.999999L2.000001,31.999999C0.89800072,31.999999,0,31.103,0,30L0,2C0,0.89699936,0.89800072,0,2.000001,0z" 
+                                              Stretch="Uniform" Fill="Black" Width="15" Height="13" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+                                                        </Path>
+                                                    </StackPanel>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Grid.Column="5" Margin="5,0,5,0" Height="12" HorizontalAlignment="Right" Click="btnRecomended_Click">
+                                                <Button.Content>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition></ColumnDefinition>
+                                                            <ColumnDefinition></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0" Text="Popularity "></TextBlock>
+                                                        <Path Grid.Column="1" Data="M14.156003,19.139999L13.955999,22.031006 16.648,23.128006 13.955999,24.324005 14.355001,27.214996 11.963003,25.520004 9.670004,27.315002 9.8690015,24.423996 7.1780001,23.326996 9.769003,22.130997 9.3710004,19.240005 11.762999,20.835007z M11.863005,16.050003C7.9750048,16.050003 4.7850028,19.240005 4.7850028,23.128006 4.7850028,27.016006 7.9750048,30.205994 11.863005,30.205994 15.750997,30.205994 18.940999,27.016006 18.940999,23.128006 18.940999,19.139999 15.750997,16.050003 11.863005,16.050003z M11.863005,14.255005C16.747998,14.255005 20.734996,18.242996 20.734996,23.128006 20.734996,28.011993 16.747998,32 11.863005,32 6.9780031,32 2.9910043,28.011993 2.9910043,23.128006 3.0900034,18.242996 6.9780031,14.255005 11.863005,14.255005z M7.4770037,0.5980072L11.963003,8.0749969 13.857,10.667007 15.650998,13.557999 11.863005,13.457993 7.9750048,13.358002C7.6760012,13.358002,7.3770052,13.158997,7.1780001,12.860001L0,0.79800415z M19.838002,0L22.131,0.1000061 18.243001,10.069 16.947003,13.158997 14.754003,9.9689941 12.561002,6.779007C12.360997,6.4799957,12.360997,6.1809998,12.461003,5.8820038L14.953,0.1000061z"
+                                                                                          Stretch="Uniform" Fill="Black" Width="15" Height="13" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                        <Path.RenderTransform>
+                                                            <TransformGroup>
+                                                                <TransformGroup.Children>
+                                                                    <RotateTransform Angle="0" />
+                                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                </TransformGroup.Children>
+                                                            </TransformGroup>
+                                                        </Path.RenderTransform>
+                                                        
+                                                    </Path>
+                                                    </Grid>
+                                                </Button.Content>
+                                            </Button>
+                                            <Button Grid.Column="6" Margin="5,0,5,0" Height="12" HorizontalAlignment="Right" Click="btnRatio_Click">
+                                                <Button.Content>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition></ColumnDefinition>
+                                                            <ColumnDefinition></ColumnDefinition>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Grid.Column="0" Text="Top 10 Ratio "></TextBlock>
+                                                        <Path Grid.Column="1" Data="M8.0886959,0L8.687694,0C12.279728,0.2989963 14.275696,2.2949993 15.971676,4.9890003 16.271724,4.5899982 16.470699,4.1909961 16.670711,3.8920001 18.765678,0.89799553 23.056684,-1.0980074 27.247655,0.79800445 28.544711,1.3970038 29.842683,2.2949993 30.740692,3.5919966 31.239652,4.3909931 31.837675,5.6880059 31.93765,6.8849973 32.336696,10.677006 30.740692,13.470998 29.442659,15.866003L26.648658,15.866003C26.149696,15.168005 26.050697,14.069998 25.351663,13.571004 24.453716,14.369009 24.353679,15.966009 23.75572,17.064001 23.156721,17.263006 22.457687,16.96401 21.759691,17.163 21.260667,17.761999 20.960681,19.359001 20.761707,20.257011 20.761707,19.458 20.561695,17.761999 20.462695,16.664007 20.262683,14.668997 20.162708,12.472997 19.963674,10.278004 19.863698,9.3800086 19.963674,8.1830015 19.164724,8.1830015 18.566703,8.1830015 18.466728,9.3800086 18.466728,9.9790077 18.266715,12.07401 17.867731,14.27001 17.468683,16.465002 16.969722,15.467001 16.670711,14.27001 16.171687,14.27001 15.57269,14.668997 15.27368,15.36701 14.973692,15.966009L13.975708,15.966009C13.876709,15.666998 13.576723,15.567007 13.277712,15.567007 12.878725,15.567007 12.47974,15.966009 12.47974,16.465002 12.47974,16.96401 12.878725,17.362997 13.277712,17.362997 13.476686,17.362997 13.776735,17.263006 13.876709,17.064001 14.375732,17.163 15.073729,17.064001 15.57269,17.064001 15.871701,16.664007 15.971676,16.265005 16.171687,15.966009 16.76971,16.763998 16.670711,18.161003 17.767694,18.660011 18.166679,18.361 18.266715,17.961998 18.366691,17.463003 18.566703,16.066 18.865714,14.569006 19.065725,13.071996 19.065725,12.873006 19.164724,11.675008 19.264699,11.375997 19.464712,14.069998 19.763723,17.761999 19.963674,20.556007 20.062671,21.354011 20.262683,21.554008 20.861682,21.953011 21.360704,21.554008 21.459703,21.454002 21.659715,20.855003 21.958665,20.157005 22.0587,19.359001 22.258712,18.560005 22.757675,18.461006 23.75572,18.760002 24.353679,18.461006 24.852703,17.662008 25.052713,16.364996 25.4517,15.567007 25.750711,16.066 25.950662,16.763998 26.249671,17.163L28.844699,17.163C28.445651,17.761999 27.846654,18.361 27.447667,18.760002 24.253703,22.352013 20.162708,25.545008 16.071712,27.641001 10.982733,24.84701 5.6937417,20.955009 2.4007186,15.567007 0.90371192,13.071996 -0.79226869,8.9810066 0.40475065,5.3889946 0.60476232,4.8900012 0.90371192,4.4899921 1.2037603,3.9909992 2.4007183,1.7959909 5.0947441,2.1702817E-07 8.0886959,0z"
+                                                                                          Stretch="Uniform" Fill="Black" Width="15" Height="13" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                                            <Path.RenderTransform>
+                                                                <TransformGroup>
+                                                                    <TransformGroup.Children>
+                                                                        <RotateTransform Angle="0" />
+                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                    </TransformGroup.Children>
+                                                                </TransformGroup>
+                                                            </Path.RenderTransform>
+
+                                                        </Path>
+                                                    </Grid>
+                                                </Button.Content>
+                                            </Button>
+                                        </Grid> 
                                     </Grid>
                                 </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-              
-            </Grid>
-            <WebBrowser Visibility="Collapsed" x:Name="wbDownload"></WebBrowser>
+
+                                <ProgressBar Width="500" Grid.Row="4" Height="20" Visibility="{Binding ListLoadingVisibility}" x:Name="progressList" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Margin="97,-10,112,68" Grid.RowSpan="3"></ProgressBar>
+                                <ScrollViewer Grid.Row="4" Margin="10" ScrollChanged="ScrollViewer_ScrollChanged" Grid.ColumnSpan="2" x:Name="scrollListTorrents">
+                                    <ItemsControl ItemsSource="{Binding TorrentList}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Background="White">
+                                                    <Border BorderThickness="0" BorderBrush="#FF3A3A3A">
+                                                        <Grid Visibility="{Binding SortVisibility}"  Background="#ececec">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"></RowDefinition>
+                                                                <RowDefinition></RowDefinition>
+                                                            </Grid.RowDefinitions>
+                                                            <Grid.ContextMenu>
+                                                                <ContextMenu>
+                                                                    <MenuItem Header="Open details in new tab" DataContext="{Binding}" Click="openNewTabDetails_Click">
+                                                                        <MenuItem.Icon>
+                                                                            <Path Grid.Column="0" Data="M10.191098,2.7655681L9.8820922,2.8515945C6.723313,3.7730997 4.0680003,5.3952897 2.4330006,7.4940432 4.0680003,9.5927966 6.723313,11.214986 9.8820922,12.136492L10.191632,12.222667 9.9967721,11.97484C9.0608288,10.724157 8.5059589,9.1726049 8.5059588,7.4939693 8.5059589,5.8149374 9.0608288,4.2633212 9.9967721,3.0127011z M21.808715,2.7654353L22.003145,3.0127011C22.939089,4.2633212 23.493958,5.8149374 23.493958,7.4939693 23.493958,9.1726049 22.939089,10.724157 22.003145,11.97484L21.808181,12.2228 22.118225,12.136492C25.277297,11.214986 27.933,9.5927966 29.568,7.4940432 27.933,5.3952897 25.277297,3.7730997 22.118225,2.8515945z M16,1.9980345L15.996623,1.9980739 15.717605,2.0051556C12.818224,2.1526652 10.504001,4.5586827 10.504001,7.4939693 10.504001,10.524003 12.969937,12.988973 15.999959,12.988973 19.029981,12.988973 21.495916,10.524003 21.495916,7.4939693 21.495916,4.5586827 19.181693,2.1526652 16.282312,2.0051556L16.003223,1.9980721z M15.999959,0C16.06452,1.5374098E-07,16.128894,0.00082070233,16.19307,0.0024518967L16.19436,0.0025010666 16.624751,0.0079708104C23.062195,0.17167799,28.904939,2.8548172,31.631,6.9400423L32.000001,7.4940432 31.631,8.0480445C28.817,12.265051 22.682,14.988056 16,14.988056 9.3190005,14.988056 3.1830006,12.265051 0.37000084,8.0480445L0,7.4940432 0.37000084,6.9400423C3.0950942,2.8548172,8.9387456,0.17167799,15.375338,0.0079708104L15.805501,0.0025031877 15.806847,0.0024518967C15.871023,0.00082070233,15.935397,1.5374098E-07,15.999959,0z" 
+                                                                                      Stretch="Uniform" Fill="Black" Width="20" Height="20" Margin="2" RenderTransformOrigin="0.5,0.5">
+                                                                                <Path.RenderTransform>
+                                                                                    <TransformGroup>
+                                                                                        <TransformGroup.Children>
+                                                                                            <RotateTransform Angle="0" />
+                                                                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                                        </TransformGroup.Children>
+                                                                                    </TransformGroup>
+                                                                                </Path.RenderTransform>
+                                                                            </Path>
+                                                                        </MenuItem.Icon>
+                                                                    </MenuItem>
+                                                                </ContextMenu>
+                                                            </Grid.ContextMenu>
+
+                                                            <Border Effect="{StaticResource z-depth2}" Background="White" Margin="8">
+                                                                <Grid Background="{Binding Background}">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Image Margin="3" Source="{Binding Converter={StaticResource ImageConverter}}" Width="70" MouseLeftButtonDown="searchbyCategory_Click"  Height="70" Grid.Column="0"></Image>
+
+                                                                    <Grid Grid.Column="1" MouseLeftButtonDown="gridT_MouseDown">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="Auto"></RowDefinition>
+                                                                            <RowDefinition Height="Auto"></RowDefinition>
+                                                                            <RowDefinition Height="Auto"></RowDefinition>
+                                                                            <RowDefinition Height="Auto"></RowDefinition>
+                                                                        </Grid.RowDefinitions>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition Width="Auto" ></ColumnDefinition>
+                                                                            <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                        </Grid.ColumnDefinitions>
+
+                                                                        <TextBlock Grid.Row="0" FontSize="20" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding TorrentName}" FontWeight="Bold"></TextBlock>
+                                                                        <TextBlock Grid.Row="1" FontSize="15" Grid.Column="1" Text="{Binding Gender}" FontWeight="Bold"></TextBlock>
+                                                                        <StackPanel Grid.Row="2" Grid.Column="1">
+                                                                            <Grid>
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                                </Grid.ColumnDefinitions>
+
+                                                                                <TextBlock FontSize="15" Grid.Column="0" Margin="2" Foreground="#FFCF0000">
+                                                                                    <Run Text="Downloads: "></Run>
+                                                                                    <Run Text="{Binding DownloadNumber}" FontWeight="Bold"></Run>
+                                                                                </TextBlock>
+
+                                                                                <TextBlock FontSize="15" Grid.Column="1" Margin="2" Foreground="Blue">
+                                                                                    <Run Text="Tip: "></Run>
+                                                                                    <Run Text="{Binding Type}" FontWeight="Bold"></Run>
+                                                                                </TextBlock>
+
+                                                                                <TextBlock   FontSize="15" Grid.Column="2" Margin="2" Foreground="#FF366300">
+                                                                                    <Run Text="Size: "></Run>
+                                                                                    <Run Text="{Binding Size}" FontWeight="Bold"></Run>
+                                                                                    <Run Text="GB" FontWeight="Bold"></Run>
+                                                                                </TextBlock>
+
+                                                                                <TextBlock  FontSize="15" Grid.Column="3" Margin="2" Foreground="#FF006266">
+                                                                                    <Run Text="Seeders: "></Run>
+                                                                                    <Run Text="{Binding Seeders}" FontWeight="Bold"></Run>
+                                                                                </TextBlock>
+
+
+                                                                                <TextBlock  FontSize="15" Grid.Column="4" Margin="2" Foreground="#FF03A80A">
+                                                                                    <Run Text="Leechers: "></Run>
+                                                                                    <Run Text="{Binding Leechers}" FontWeight="Bold"></Run>
+                                                                                </TextBlock>
+                                                                                <TextBlock FontSize="15" Grid.Column="5" Margin="2" Foreground="#FFEA5D0D">
+                                                                                    <Run Text="Added: "></Run>
+                                                                                    <Run FontWeight="Bold" Text="{Binding Date, Converter={StaticResource DateTimeConverter}}"></Run>
+                                                                                </TextBlock>
+                                                                            </Grid>
+                                                                        </StackPanel>
+
+                                                                    </Grid>
+                                                                    <Grid Width="200" Grid.Column="2" Grid.RowSpan="4" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,40,0" >
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition></ColumnDefinition>
+                                                                            <ColumnDefinition></ColumnDefinition>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <Path HorizontalAlignment="Right" Grid.Column="0" Data="M14.156003,19.139999L13.955999,22.031006 16.648,23.128006 13.955999,24.324005 14.355001,27.214996 11.963003,25.520004 9.670004,27.315002 9.8690015,24.423996 7.1780001,23.326996 9.769003,22.130997 9.3710004,19.240005 11.762999,20.835007z M11.863005,16.050003C7.9750048,16.050003 4.7850028,19.240005 4.7850028,23.128006 4.7850028,27.016006 7.9750048,30.205994 11.863005,30.205994 15.750997,30.205994 18.940999,27.016006 18.940999,23.128006 18.940999,19.139999 15.750997,16.050003 11.863005,16.050003z M11.863005,14.255005C16.747998,14.255005 20.734996,18.242996 20.734996,23.128006 20.734996,28.011993 16.747998,32 11.863005,32 6.9780031,32 2.9910043,28.011993 2.9910043,23.128006 3.0900034,18.242996 6.9780031,14.255005 11.863005,14.255005z M7.4770037,0.5980072L11.963003,8.0749969 13.857,10.667007 15.650998,13.557999 11.863005,13.457993 7.9750048,13.358002C7.6760012,13.358002,7.3770052,13.158997,7.1780001,12.860001L0,0.79800415z M19.838002,0L22.131,0.1000061 18.243001,10.069 16.947003,13.158997 14.754003,9.9689941 12.561002,6.779007C12.360997,6.4799957,12.360997,6.1809998,12.461003,5.8820038L14.953,0.1000061z"
+                                                                                          Stretch="Uniform" Fill="Black" Width="25" Height="25" Margin="0,0,10,0" RenderTransformOrigin="0.5,0.5">
+                                                                            <Path.RenderTransform>
+                                                                                <TransformGroup>
+                                                                                    <TransformGroup.Children>
+                                                                                        <RotateTransform Angle="0" />
+                                                                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                                                    </TransformGroup.Children>
+                                                                                </TransformGroup>
+                                                                            </Path.RenderTransform>
+                                                                        </Path>
+                                                                        <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Foreground="Red">
+                                                                                        <Run Text="{Binding RecomendedRatio}" FontWeight="Bold"></Run>
+                                                                        </TextBlock>
+                                                                    </Grid>
+                                                                    <Button Style="{StaticResource btnUtorrentStyle}" Grid.Column="3" Margin="10" BorderThickness="0" Background="Transparent" DataContext="{Binding}" Click="downloadTorrent_Click" RenderTransformOrigin="0.5,0.5">
+                                                                    </Button>  
+                                                                </Grid>
+                                                            </Border>
+                                                            <Grid Visibility="Collapsed" Grid.Row="1" Margin="10">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                                    <RowDefinition Height="Auto"></RowDefinition>
+                                                                </Grid.RowDefinitions>
+                                                                <TextBlock Grid.ColumnSpan="3" FontSize="25" Grid.Row="0">
+                                                    <Run Text="IMDB: "></Run>
+                                                    <Run Text="{Binding TorrentDetails.ImdbMark}"></Run>
+                                                                </TextBlock>
+                                                                <Image Source="{Binding TorrentDetails.PoserImage}" Margin="10" Height="300" Grid.Column="0" Grid.Row="1"></Image>
+                                                                <Image Source="Assets\youtube.png" DataContext="{Binding TorrentDetails.Video}" Height="300" MouseDown="youtube_MouseDown" Grid.Column="1" Grid.Row="1"></Image>
+                                                                <!--<Image Height="130" HorizontalAlignment="Right" Grid.Column="2" Grid.Row="1" DataContext="{Binding Details}" MouseDown="details_MouseDown" Source="Assets\logo.png"></Image>-->
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Border>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+
+                            </Grid>
+                            <WebBrowser Visibility="Collapsed" x:Name="wbDownload"></WebBrowser>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+            </TabControl>
         </Grid>
         <ProgressBar Width="500" Height="20" Visibility="Collapsed" x:Name="loadingBar" IsIndeterminate="True" HorizontalAlignment="Center" VerticalAlignment="Center"></ProgressBar>
 
@@ -184,7 +733,7 @@
             <CheckBox x:Name="chkRememberMe" Foreground="White" FontSize="15"  Content="Remember me?" Grid.Column="0" Grid.Row="4" Margin="10"></CheckBox>
 
             <Grid  Grid.Column="1" MouseDown="click_btnLogin" Grid.Row="4" Margin="5" HorizontalAlignment="Right">
-                <Grid Name="backgroundGrid" Width="35" Height="35" Visibility="Visible">
+                <Grid Name="backgroundGridLogin" Width="35" Height="35" Visibility="Visible">
                     <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FFFCFCFC" Name="Stroke" Visibility="Visible" />
                 </Grid>
                 <Path Data="M9.9989946,18.801896C8.3989875,18.801896 7.0990002,20.101909 7.0990002,21.700919 7.0990002,22.900926 7.7989819,23.800933 8.6990068,24.300937L8.6990068,28.200965 11.099001,28.200965 11.099001,24.300937C12.099001,23.800933 12.698,22.900926 12.698,21.700919 12.798006,20.101909 11.498995,18.801896 9.9989946,18.801896z M8.7611511,0.00021949895C11.466109,0.023492754,14.032363,1.8943686,15.097994,4.7027968L16.397981,8.4028276C16.597994,9.0028308,16.698,9.6028331,16.798006,10.202836L14.897981,10.202836C14.897981,9.7028325,14.798006,9.2028287,14.597994,8.7028259L13.597994,6.0028094C12.599001,3.2037857 9.5990007,1.703775 6.898988,2.8037814 4.1999824,3.8037885 2.8999944,7.0028165 4.0000007,9.902839L4.8989875,12.402856 13.997987,12.402856 16.798006,12.402856C18.997987,12.701855,20.698002,14.801868,20.698002,17.201886L20.698002,27.100959C20.698002,29.799976,18.698,31.999996,16.198,31.999996L4.4989936,31.999996C2.0000005,31.999996,1.4330499E-07,29.799976,0,27.100959L0,17.201886C1.4330499E-07,15.101874,1.2999881,13.301857,3.099976,12.602855L2.1999824,10.002838C0.79998801,6.3028067 2.5000005,2.0037802 6.0989997,0.50376948 6.898988,0.20376425 7.6990063,0.0037658689 8.4989936,0.0037657364 8.5864932,0.0006408943 8.6738946,-0.00053094873 8.7611511,0.00021949895z" Stretch="Uniform" Fill="#FFFFFFFF" 

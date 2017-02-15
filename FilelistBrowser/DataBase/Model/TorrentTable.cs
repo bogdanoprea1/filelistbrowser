@@ -22,5 +22,7 @@ namespace FilelistBrowser.DataBase.Model
         public string Gender { get; set; }
         public decimal Size { get; set; }
         public Uri Image { get; set; }
+
+        public bool IsFavorite { get; set; }
     }
 }

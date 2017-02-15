@@ -65,7 +65,7 @@ namespace FilelistBrowser.Service
         {
 
             var request = new RestRequest("/takelogin.php", Method.POST);
-          
+            Cookies = new List<Cookie>();
             request.AddParameter("username", userName);
             request.AddParameter("password", password);
             IRestResponse response = await BaseClient.ExecuteTaskAsync(request);
@@ -114,7 +114,7 @@ namespace FilelistBrowser.Service
             }
             IRestResponse response = await _baseClient.ExecuteTaskAsync(request);
             IsLoggedIn = false;
-            Cookies.Clear();
+            Cookies = new List<Cookie>();
         }
 
         public async Task<byte[]> Download(string url)

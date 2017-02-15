@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="FilelistBrowser.CloseableHeader"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="15" d:DesignWidth="81" Margin="0">
+    <UserControl.Resources>
+        <Style x:Key="btnCloseTabStyle" TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Path
+                         x:Name="Cross"
+                         Data="M0,0L6,6 M6,0L0,6z"
+                         Stroke="LightGray"           
+                         StrokeThickness="1.7"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Cross" Property="Stroke" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Cross" Property="Stroke" Value="LightGray"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
+    <Grid  Height="10" Name="grid_close">
+        <Button Style="{StaticResource btnCloseTabStyle}" HorizontalAlignment="Right" Margin="0,0,0,0" Width="6" Height="6" Name="button_close" VerticalAlignment="Center" Visibility="Visible" />
+        <Label  Margin="-8" HorizontalAlignment="Left" Name="label_TabTitle" VerticalAlignment="Center" Foreground="White"/>
+    </Grid>
+</UserControl>

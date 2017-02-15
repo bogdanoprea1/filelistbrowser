@@ -26,7 +26,7 @@ namespace FilelistBrowser.DataBase
             _connection = new SQLiteConnection("Data Source=" + dbPath);
             _connection.Open();
             using (SQLiteCommand mCmd = new SQLiteCommand("CREATE TABLE IF NOT EXISTS [TorrentTable] (TorrentId INTEGER PRIMARY KEY, 'TorrentName' TEXT, 'Type' TEXT, " +
-                    " 'DownloadNumber' NUM, 'Seeders' INT, 'Uri' TEXT, 'Details' TEXT, 'Gender' TEXT, 'Size' NUM, 'Image' TEXT );", _connection))
+                    " 'DownloadNumber' NUM, 'Seeders' INT, 'Uri' TEXT, 'Details' TEXT, 'Gender' TEXT, 'Size' NUM, 'Image' TEXT, 'IsFavorite' INT, 'PoserImage' TEXT, 'Video' TEXT, 'ImdbMark' NUM );", _connection))
             {
                 mCmd.ExecuteNonQuery();
             }
@@ -36,7 +36,7 @@ namespace FilelistBrowser.DataBase
         public void InsertTorrent(TorrentTable torrentId)
         {
             _connection.Open();
-            using (SQLiteCommand mCmd = new SQLiteCommand("INSERT INTO TorrentTable(TorrentId) VALUES("+torrentId+")", _connection))
+            using (SQLiteCommand mCmd = new SQLiteCommand("INSERT INTO TorrentTable(TorrentId, TorrentName, Type, ) VALUES(" + torrentId + ")", _connection))
             {
                 mCmd.ExecuteNonQuery();
             }
